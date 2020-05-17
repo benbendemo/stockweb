@@ -16,7 +16,8 @@ RUN apt-get update -y && apt-get install -y \
         vim \
         lsof \
 	procps \
-        && apt-get clean
+        && useradd -m airflow -g sudo -s /bin/bash -d ${AIRFLOW_USER_HOME} \
+	apt-get clean
 
 COPY requirements.txt requirements.txt
 
