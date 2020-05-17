@@ -1,0 +1,143 @@
+{% extends '/bootstrap/base.html' %}
+
+{% block navbar %}
+<nav class="navbar navbar-default">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" 
+            data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" 
+            aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Stockdata</a>
+        </div>
+  
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+            <li class="active"><a href="#show_xsg_data" id="get_xsg_data">接口列表 <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Link</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
+                role="button" aria-haspopup="true" aria-expanded="false">
+                Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#show_stock_breaklimit" id="get_stock_breaklimit">stock_breaklimit</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">One more separated link</a></li>
+                </ul>
+            </li>
+            </ul>
+        <form class="navbar-form navbar-left">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Link</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
+                role="button" aria-haspopup="true" aria-expanded="false">
+                Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+    {% block header %}
+    <div class="container">
+        <h1>This is block header</h1>
+        <p>这里是block header</p>
+    </div>
+    {% endblock %}
+
+    {% block container %}
+    <div class="container">
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Hello world</h1>
+                <p>这里是巨幕</p>
+                <p><a class="btn btn-info btn-lg" href="#" role="button">Learn More</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h2 id="show_xsg_data">Ajax测试结果</h2>
+        <!-- $('#table').bootstrapTable('load', data) -->
+        <!-- https://blog.csdn.net/feixiangsmile/article/details/82924303 -->
+
+        <h3>p_show_xsg_data1</h3>
+        <span class="input-group-addon" id="p_show_xsg_data1"></span>
+
+        <h3>p_show_xsg_data2</h3>
+        <input type="text" class="form-control" placeholder="返回数据" id="p_show_xsg_data2">
+        
+        <h3>p_show_xsg_data3</h3>
+        <p id="p_show_xsg_data3">
+            <table class="table table-bordered">
+                <tr>
+                    <th>序号</th>
+                    <th>股票代码</th>
+                    <th>股票名称</th>
+                    <!-- <th>解禁日期</th> -->
+                    <!-- <th>解禁数量</th> -->
+                    <!-- <th>解禁股份比率</th> -->
+                </tr>
+                    {% for item in data | sort %}
+                        <tr>
+                            <td>{{ item[0] }}</td>
+                            <td>{{ item[1] }}</td>
+                            <td>{{ item[2] }}</td>
+            
+                            <!--
+                            <td>{{ item }}</td>
+                            <td>{{ item }}</td>
+                            <td>{{ item }}</td>
+                            -->
+                        </tr>
+                    {% endfor %}
+            </table>
+        </p>
+
+        <h3>p_show_xsg_data</h3>
+        <p id="p_show_xsg_data">
+        </p>
+        
+        <p id="p_show_xsg_data4">
+        </p>
+
+        <h3>Ajax stock_breaklimit測試結果</h3>
+        <span class="input-group-addon" id="show_stock_breaklimit"></span>
+        
+    </div>
+    {% endblock %}
+
+    {% block footer %}
+    <div class="container">
+        <footer>
+            <p class="pull-right"><a href="#">Back to top</a></p>
+            <p>Last update on <span class="mute">06 Apr 2020</span>.</p>
+            <p>Layout thanks to <a href="https://bigbigben.com/">Bootstrap</a>, icons thanks to <a href="http://adamwhitcroft.com/batch/">Batch</a>.</p>
+        </footer>
+    </div>
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,19 @@
+FROM python:3.7-alpine
+
+WORKDIR /usr/local/stockweb
+
+# Use below sed command to replace alpine mirror
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
+RUN apk add --no-cache gcc musl-dev linux-headers && \
+    apk add --no-cache g++
+
+COPY requirements.txt requirements.txt
+
+# Use below to replace alpine pip mirror
+RUN pip install pip -U && \
+    pip config set global.index-url https://pypi.doubanio.com/simple && \
+    pip install -r requirements.txt
+
+COPY . .
+
+CMD ["python3", "manage.py", "runserver -r -d"]

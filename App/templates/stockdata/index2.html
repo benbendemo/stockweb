@@ -1,0 +1,153 @@
+{% extends 'stockdata/bootstrap_base.html' %}
+
+{% block header %}
+<!--     <div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">Hello, world!</h1>
+        <p class="lead">This is a simple hero unit, a simple jumbotron-style 
+            component for calling extra attention to 
+            featured content or information.</p>
+        <hr class="my-4">
+        <p>It uses utility classes for typography and spacing to space 
+            content out within the larger container.</p>
+        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </div>
+    </div> -->
+
+
+{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <!-- <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-table.min.css') }}">
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <!-- <script type="text/javascript" src="my-script.js"></script> -->
+    <!-- <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script> -->
+    <!-- <script type="text/javascript" src="/App/static/js/bootstrap-table.min.js"></script> -->
+    <script type="text/javascript" src={{url_for('static', filename='js/bootstrap-table.min.js')}}></script>
+    <script type="text/javascript">
+    $('#get_xsg_data').click(function(e) {
+        $.ajax({
+            url:"/xsg_data/",
+            type:"get",
+            // headers:{"X-CSRFToken":$.cookie('csrftoken')},
+            success: function (data) {
+                showQuery1(data);
+                
+                showQuery2(data);
+
+                showQuery3(data);
+
+                showQuery(data);
+                console.log(0);
+            },
+            error: function (xhr, status, error) {
+                console.log(status);
+                console.log(error);
+                console.log(1);
+            }
+        });
+    });
+
+    $('#get_stock_breaklimit').click(function(e) {
+        $.ajax({
+            url:"/stock_breaklimit/",
+            type:"get",
+            // headers:{"X-CSRFToken":$.cookie('csrftoken')},
+            success: function (data) {
+                showStock_breaklimit(data);
+                console.log(0);
+            },
+            error: function (xhr, status, error) {
+                console.log(status);
+                console.log(error);
+                console.log(1);
+            }
+        });
+    });
+
+    function showQuery1(data){
+        json_data = {
+                    'index': data.data[0].index,
+                    'code': data.data[0].code,
+                    'name': data.data[0].code
+        }
+        var json_data_str = JSON.stringify(json_data);
+        // console.log(typeof(json_data_str), json_data_str);
+        // 往span里传值使用text方法
+        // $("#p_show_xsg_data1").text(json_data_str);
+        $("#p_show_xsg_data1").text(data.responseText);
+    };
+
+    function showQuery2(data){
+        json_data = {
+                    'index': data.data[0].index,
+                    'code': data.data[0].code,
+                    'name': data.data[0].code
+        }
+        var json_data_str = JSON.stringify(json_data);
+        // var p_show_xsg_data2_value = document.getElementById("p_show_xsg_data2").value;
+        // 往input框里传值需要使用val方法
+        $("#p_show_xsg_data2").val(json_data_str);
+    };
+
+    function showQuery3(data){
+        $("#p_show_xsg_data3").html(data.data);
+    };
+
+    function showQuery(data) {
+        console.log(data);
+        // $(".table table-bordered").val(data.data);
+        // https://blog.csdn.net/qq_41115965/article/details/80256484
+        //拼接字符串
+        var str = '';
+        str += '<table class="table table-bordered">';
+        str += '<tr>\
+                <th>序号</th>\
+                <th>股票代码</th>\
+                <th>股票名称</th>\
+                </tr>';
+        for(var i=0; i<data.data.length; i++){
+            str +='<tr>';
+            str += '<td>'+data.data[i].index+'</td>';
+            str += '<td>'+data.data[i].code+'</td>';
+            str += '<td>'+data.data[i].name+'</td>';
+            str += '</tr>';
+        };
+        str += '</table>';
+        // 使用append和html可以得到同样的结果
+        // $("#p_show_xsg_data").append(str);
+        $('#p_show_xsg_data').html(str);
+    };
+
+    function showStock_breaklimit(data) {
+        console.log(data);
+        var str = '';
+        str += '<table class="table table-bordered">';
+        str += '<tr>\
+                <th>序号</th>\
+                <th>股票代码</th>\
+                <th>股票名称</th>\
+                </tr>';
+        for(var i=0; i<data.data.length; i++){
+            str +='<tr>';
+            str += '<td>'+data.data[i].index+'</td>';
+            str += '<td>'+data.data[i].stock_code+'</td>';
+            str += '<td>'+data.data[i].stock_name+'</td>';
+            str += '</tr>';
+        };
+        str += '</table>';
+        // 使用append和html可以得到同样的结果
+        // $("#show_stock_breaklimit").append(str);
+        $('#show_stock_breaklimit').html(str);
+    };
+
+    $('#get_xsg_data1').click(function(e) {
+            alert("Hello get_xsg_data")
+    })
+    </script>
+{% endblock %}

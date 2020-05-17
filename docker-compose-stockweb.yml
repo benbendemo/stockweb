@@ -1,0 +1,42 @@
+version: '3.0'
+services:
+    postgres:
+        image: postgres:11.4
+        # container_name: postgres_stockdata
+        environment:
+            - POSTGRES_USER=airflow
+            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_DB=airflow
+        logging:
+            options:
+                max-size: 10m
+                max-file: "3"
+        labels:
+            - "stockdata.postgres"
+            - "stockdata"
+    stockweb:
+        # build: ./stockweb
+        build: .
+        image: benbendemo/stockweb:latest
+        restart: always
+        # depends_on:
+        #     - postgres
+        # links:
+        #     - postgres
+        environment:
+            POSTGRES_USER: airflow
+            POSTGRES_PASSWORD: airflow
+            POSTGRES_DB: airflow
+            POSTGRES_HOST: postgres
+        logging:
+            options:
+                max-size: 10m
+                max-file: "3"
+        #volumes:
+        #    - ./stockweb:/user/local/stockweb
+        ports:
+            - "5000:5000"
+        # command: python3 manage.py runserver -r -d
+        labels:
+            - "stockdata.stockweb"
+            - "stockdata"
