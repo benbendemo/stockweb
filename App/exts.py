@@ -30,7 +30,7 @@ def init_exts(app):
     migrate.init_app(app, db)
     Bootstrap(app)
     # toolbar.init_app(app)
-    cache.init_app(app)
+    # cache.init_app(app)
     mail.init_app(app)
     # with app.app_context():
     #    db.reflect()

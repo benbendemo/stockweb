@@ -109,7 +109,7 @@ def load_middleware(app):
 
         # display_request_methods()
 
-        return limit_ip_request_by_ip_address()
+        # return limit_ip_request_by_ip_address()
 
         # dislay_g_methods()
 
