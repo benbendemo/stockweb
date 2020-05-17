@@ -15,9 +15,8 @@ RUN apt-get update -y && apt-get install -y \
         locales \
         vim \
         lsof \
-	    procps \
-        && useradd -ms /bin/bash -d ${AIRFLOW_USER_HOME} stockweb \
-        apt-get clean
+	procps \
+        && apt-get clean
 
 COPY requirements.txt requirements.txt
 
