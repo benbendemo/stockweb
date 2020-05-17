@@ -17,7 +17,7 @@ RUN apt-get update -y && apt-get install -y \
         lsof \
 	procps \
         && useradd -m airflow -g sudo -s /bin/bash -d ${AIRFLOW_USER_HOME} \
-	apt-get clean
+	&& apt-get clean
 
 COPY requirements.txt requirements.txt
 
