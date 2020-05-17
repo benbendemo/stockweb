@@ -1,5 +1,6 @@
 import os
 import redis
+import logging
 BASE_DIR = os.path.dirname(os.path.abspath('__file__'))
 
 def get_db_uri(dbinfo):
@@ -19,6 +20,88 @@ def get_db_uri(dbinfo):
                                             dbhost,
                                             dbport,
                                             dbname)
+
+def get_logger():
+
+    """
+    get_logger:定义日志格式，返回一个logger实例
+
+    Parameters
+    ----------
+    None
+
+    Return
+    ------
+    logger instance
+    """
+
+    # Currently log format
+    STOCKDATA_LOG_FORMAT = \
+    '%(asctime)s - %(process)d - %(levelname)8s - %(pathname)s,%(lineno)4s - %(message)s'
+
+    # Setup STOCKDATA_LOG_DATEFMT format; if None defaults to YYYY-MM-DD HH:MM:SS
+    # STOCKDATA_LOG_DATEFMT = '%Y-%m-%d %H:%M:%S'
+    STOCKDATA_LOG_DATEFMT = None
+
+    # filemode 'a' means Append 'w' means override
+    STOCKDATA_LOG_FILEMODE = 'a'
+
+    # Setup log file level can only be "CRITICAL, ERROR, WARNING, INFO, DEBUG, NOTSET"
+    STOCKDATA_LOG_FILE_LEVEL = 'INFO'
+
+    # Setup log file encoding
+    STOCKDATA_LOG_FILE_ENCODE_TYPE = 'UTF-8'
+
+    logger = logging.getLogger('')
+
+    if not logger.handlers:
+
+        # 定义StreamHandler，输出到当前终端
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(logging.Formatter(STOCKDATA_LOG_FORMAT,
+                                                       STOCKDATA_LOG_DATEFMT))
+        """
+        LOG_FILE_DIRECTORY = os.path.dirname(__file__) + '/log/'
+
+        if not os.path.exists(LOG_FILE_DIRECTORY):
+            os.mkdir(LOG_FILE_DIRECTORY)
+
+        LOG_FILE_NAME_PATH = LOG_FILE_DIRECTORY + configuration.STOCKDATA_LOG_FILE_NAME
+        if not os.path.exists(LOG_FILE_NAME_PATH):
+            os.system("touch {}".format(LOG_FILE_NAME_PATH))
+
+        LOG_FILE_GITKEEP = LOG_FILE_DIRECTORY + '.gitkeep'
+        if not os.path.exists(LOG_FILE_GITKEEP):
+            os.system("touch {}".format(LOG_FILE_GITKEEP))
+
+        # 定义FileHandler，输出到指定log文件
+        file_handler = logging.FileHandler(LOG_FILE_NAME_PATH,
+                                           configuration.STOCKDATA_LOG_FILEMODE)
+        file_handler.setFormatter(logging.Formatter(configuration.STOCKDATA_LOG_FORMAT,
+                                                    configuration.STOCKDATA_LOG_DATEFMT))
+        """
+
+        # 根据LEVEL级别(CRITICAL > ERROR > WARNING > INFO > DEBUG > NOTSET)来
+        # 设置logger级别，默认设置级别为WARNING
+        if STOCKDATA_LOG_FILE_LEVEL == 'CRITICAL':
+            logger.setLevel(logging.CRITICAL)
+        elif STOCKDATA_LOG_FILE_LEVEL == 'ERROR':
+            logger.setLevel(logging.ERROR)
+        elif STOCKDATA_LOG_FILE_LEVEL == 'WARNING':
+            logger.setLevel(logging.WARNING)
+        elif STOCKDATA_LOG_FILE_LEVEL == 'INFO':
+            logger.setLevel(logging.INFO)
+        elif STOCKDATA_LOG_FILE_LEVEL == 'DEBUG':
+            logger.setLevel(logging.DEBUG)
+        elif STOCKDATA_LOG_FILE_LEVEL == 'NOTSET':
+            logger.setLevel(logging.NOTSET)
+        else:
+            logger.setLevel(logging.WARNING)
+
+        logger.addHandler(console_handler)
+        # logger.addHandler(file_handler)
+
+    return logger
 
 class BaseConfig():
 
@@ -102,6 +185,8 @@ class BaseConfig():
     POSTGRES_USER = os.getenv('POSTGRES_USER', '')
     POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD', '')
     POSTGRES_DB = os.getenv('POSTGRES_DB', '')
+
+    LOGGER = get_logger()
 
 class DevelopConfig(BaseConfig):
 

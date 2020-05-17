@@ -28,20 +28,24 @@ blue = Blueprint('blue', __name__)
 @_decorator
 def index():
     # print('index name:', index.__name__)
+    current_app.logger.info('views.py run index function')
     return 'Hello Flask'
     # return render_template('index.html', msg='You need to go bed')
 
 @blue.route('/stockdata/', methods=['GET', 'POST'])
 def stockdata_index():
+    current_app.logger.info('views.py run stockdata_index function')
     print('stockdata_index name:', stockdata_index.__name__)
     return render_template('/stockdata/index2.html')
 
 @blue.route('/index2', methods=['GET', 'POST'])
 def index2():
+    current_app.logger.info('views.py run index2 function')
     return render_template('/stockdata/bootstrap_base.html')
 
 @blue.route('/wx')
 def wx():
+    current_app.logger.info('views.py run wx function')
     signature = request.args.get('signature')
     timestamp = request.args.get('timestamp')
     nonce = request.args.get('nonce')
