@@ -7,7 +7,6 @@ from flask_debugtoolbar import DebugToolbarExtension
 # from flask_cache import Cache   
 from flask_caching import Cache
 from flask_mail import Mail
-from flask import current_app
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -33,7 +32,6 @@ def init_exts(app):
     # toolbar.init_app(app)
     # cache.init_app(app)
     mail.init_app(app)
-    current_app.logger.info('exts.py begin to init_exts')
     # with app.app_context():
     #    db.reflect()
     # all_table = {table_obj.name: table_obj for table_obj in db.get_tables_for_bind()}
