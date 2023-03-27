@@ -13,7 +13,7 @@ requests==2.22.0
 Flask_RESTful==0.3.8
 Flask_SQLAlchemy==2.4.1
 Flask_Script==2.0.6
-redis==3.3.11
+redis==4.5.3
 psycopg2-binary==2.8.4
 sqlacodegen==2.1.0
 flask-sqlacodegen==1.1.7
